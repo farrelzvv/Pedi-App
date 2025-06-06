@@ -372,6 +372,37 @@ nav {
   border-radius: 5px;
 }
 
+.service__grid {
+  /* 1. Mengaktifkan Flexbox */
+  display: flex;
+
+  /* 2. Mengizinkan item untuk pindah ke baris baru (wrapping) */
+  flex-wrap: wrap;
+
+  /* 3. Menengahkan semua item secara horizontal */
+  justify-content: center;
+
+  /* 4. Memberi jarak antar item (opsional, tapi disarankan) */
+  gap: 1.5rem; /* Anda bisa sesuaikan nilainya, misal 20px */
+}
+
+.service__card {
+  /* 5. Mengatur lebar agar 3 item muat dalam satu baris */
+  /* Kalkulasi: 100% / 3 = 33.33%. Dikurangi sedikit untuk memberi ruang bagi 'gap'. */
+  flex: 0 1 calc(33.33% - 2rem);
+
+  /* Menetapkan lebar minimum agar tidak terlalu kecil */
+  min-width: 250px;
+}
+
+/* 6. (PENTING) Menambahkan Aturan untuk Layar Kecil (Responsive) */
+@media (max-width: 768px) {
+  .service__card {
+    /* Membuat item memenuhi lebar layar di perangkat mobile */
+    flex: 1 1 100%;
+  }
+}
+
 .service__card:nth-child(1) div {
   color: #00d5be;
   background-color: #f0fdfa;

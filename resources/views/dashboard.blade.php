@@ -70,41 +70,43 @@
         </div>
     </section>
 
-    {{-- 3. Menu Utama (dari HTML Anda, link disesuaikan dengan route Laravel) --}}
-    <section class="service" id="menu"> {{-- Memberi ID "menu" agar link di nav bisa bekerja jika masih 1 halaman --}}
-        <div class="section__container service__container">
-            <h2 class="section__header">Menu Utama</h2>
-            <div class="service__grid">
-                {{-- Container (Kuis) --}}
-                <a href="{{ route('murid.kuis.index') }}" class="service__card"> {{-- Buat service__card menjadi link --}}
-                    <div><i class="ri-pencil-ruler-2-line"></i></div>
-                    <h4>Kuis</h4>
-                    <p class="section__description">Uji Kemampuan Belajar</p>
-                </a>
-                {{-- Container (Materi) --}}
-                <a href="{{ route('murid.materi.index') }}" class="service__card">
-                    <div><i class="ri-computer-line"></i></div>
-                    <h4>Materi</h4>
-                    <p class="section__description">Akses Materi Pembelajaran</p>
-                </a>
-                {{-- Container (Games) --}}
-                <a href="https://wordwall.net/resource/93017342" class="service__card"> {{-- Link Games masih placeholder --}}
-                    <div><i class="ri-pages-line"></i></div>
-                    <h4>Games</h4>
-                    <p class="section__description">Uji Pemahaman Bermain</p>
-                </a>
-                {{-- Container (Refleksi) --}}
-                <a href="{{ route('refleksi.index') }}" class="service__card">
-                    <div><i class="ri-layout-2-line"></i></div>
-                    <h4>Refleksi</h4>
-                    <p class="section__description">Diskusi bersama guru</p>
-                </a>
-            </div>
-            {{-- <div class="service__btn">
-                <button class="btn">All Our Services</button>
-            </div> --}}
+    <section class="service" id="menu">
+    <div class="section__container service__container">
+        <h2 class="section__header">Menu Utama</h2>
+        <div class="service__grid">
+            {{-- Container (Kuis) --}}
+            <a href="{{ route('murid.kuis.index') }}" class="service__card">
+                <div><i class="ri-pencil-ruler-2-line"></i></div>
+                <h4>Kuis</h4>
+                <p class="section__description">Uji Kemampuan Belajar</p>
+            </a>
+            {{-- Container (Materi) --}}
+            <a href="{{ route('murid.materi.index') }}" class="service__card">
+                <div><i class="ri-computer-line"></i></div>
+                <h4>Materi</h4>
+                <p class="section__description">Akses Materi Pembelajaran</p>
+            </a>
+            {{-- Container (Games) --}}
+            <a href="https://wordwall.net/resource/93017342" target="blink" class="service__card">
+                <div><i class="ri-pages-line"></i></div>
+                <h4>Games</h4>
+                <p class="section__description">wordwall Drag & Drop</p>
+            </a>
+            {{-- Container (Games) --}}
+            <a href="https://www.educaplay.com/learning-resources/23965219-yes_or_no.html" target="blink" class="service__card">
+                <div><i class="ri-pages-line"></i></div>
+                <h4>Games</h4>
+                <p class="section__description">Educaplay yes or no</p>
+            </a>
+            {{-- Container (Refleksi) --}}
+            <a href="{{ route('refleksi.index') }}" class="service__card">
+                <div><i class="ri-layout-2-line"></i></div>
+                <h4>Refleksi</h4>
+                <p class="section__description">Diskusi bersama guru</p>
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
     {{-- 4. Profile Pengembang (dari HTML Anda) --}}
     {{-- ID portfolio diubah menjadi profile agar cocok dengan link nav --}}

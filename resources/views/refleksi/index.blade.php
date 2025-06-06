@@ -1,10 +1,32 @@
-{{-- resources/views/refleksi/index.blade.php --}}
 {{-- resources/views/dashboard.blade.php --}}
 @extends('layouts.custom_app') {{-- Menggunakan layout kustom baru Anda --}}
 
 @section('title', 'Dashboard Utama') {{-- Judul halaman dinamis --}}
 
 @section('content')
+
+{{-- 1. Ini Info Website (Hero Section dari HTML Anda) --}}
+    <header class="section__container header__container" id="home">
+        <div class="header__image">
+            {{-- Ganti path gambar sesuai dengan lokasi di public/landing_page_assets/ --}}
+            <img src="{{ asset('landing_page_assets/images/header.png') }}" alt="header" />
+        </div>
+        <div class="header__content">
+            <h1><span>Refleksi</span></h1>
+            <p class="section__description">
+                Utarakan Fikiran, Perasaan dan Pendapatmu disini!, {{ Auth::user()->name }}!
+            </p>
+            <div class="header__btns">
+                {{-- Link ini bisa diarahkan ke section 'Tujuan Pembelajaran' di bawah jika masih satu halaman,
+                     atau ke halaman lain jika dipisah. Untuk sekarang, kita buat link ke section ID. --}}
+                <a href="{{ route('dashboard') }}" class="btn btn-outline ml-2">Kembali</a>
+                {{-- <a href="#">
+                    <span><i class="ri-play-fill"></i></span>
+                    Check Video 
+                </a> --}}
+            </div>
+        </div>
+    </header>
 
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
