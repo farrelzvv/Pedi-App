@@ -27,7 +27,7 @@ use App\Http\Controllers\RefleksiController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Route Dashboard Utama (untuk semua user yang login & terverifikasi)
@@ -68,8 +68,9 @@ Route::middleware(['auth', 'role:1'])->prefix('murid')->name('murid.')->group(fu
     Route::post('/kuis/{kui}/submit', [MuridKuisController::class, 'submit'])->name('kuis.submit');
     Route::get('/kuis/attempt/{kuisAttempt}/hasil', [MuridKuisController::class, 'hasil'])->name('kuis.hasil');
     // --- Route untuk MATERI (Murid) ---
-    Route::get('/materi', [MuridMateriController::class, 'index'])->name('materi.index'); // Daftar materi untuk murid
-    Route::get('/materi/{materi}', [MuridMateriController::class, 'show'])->name('materi.show'); // Detail satu materi untuk murid
+    Route::get('/materi', function () {
+        return view('murid.materi.index');
+    })->name('materi.index');
 });
 
 
@@ -120,7 +121,17 @@ Route::middleware(['auth', 'role:1'])->prefix('murid')->name('murid.')->group(fu
 // Route untuk Fitur Refleksi (membutuhkan login)
 Route::get('/refleksi', [RefleksiController::class, 'index'])->name('refleksi.index');
 Route::post('/refleksi', [RefleksiController::class, 'store'])->name('refleksi.store');
+Route::get('/petunjuk-penggunaan', function () {
+    return view('petunjuk'); // Akan memanggil file resources/views/petunjuk.blade.php
+})->name('petunjuk.penggunaan');
+/* Tambahkan ini di public/custom_ui/css/dashboard.css */
 
+Route::get('/games', function () {
+    return view('games.index'); // Akan memanggil file resources/views/games/index.blade.php
+})->name('games.index');
+Route::get('/profile-pengembang', function () {
+    return view('profile_pengembang');
+})->name('profile.pengembang');
 
 // Ini mengimpor route-route untuk autentikasi (login, register, dll.) dari Breeze
 require __DIR__ . '/auth.php';

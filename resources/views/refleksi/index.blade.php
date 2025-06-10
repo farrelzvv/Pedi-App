@@ -1,94 +1,43 @@
-{{-- resources/views/dashboard.blade.php --}}
-@extends('layouts.custom_app') {{-- Menggunakan layout kustom baru Anda --}}
+{{-- File: resources/views/refleksi/index.blade.php (VERSI BARU DINAMIS) --}}
+@extends('layouts.app')
 
-@section('title', 'Dashboard Utama') {{-- Judul halaman dinamis --}}
+@section('title', 'Refleksi')
 
 @section('content')
-
-{{-- 1. Ini Info Website (Hero Section dari HTML Anda) --}}
-    <header class="section__container header__container" id="home">
-        <div class="header__image">
-            {{-- Ganti path gambar sesuai dengan lokasi di public/landing_page_assets/ --}}
-            <img src="{{ asset('landing_page_assets/images/header.png') }}" alt="header" />
-        </div>
-        <div class="header__content">
-            <h1><span>Refleksi</span></h1>
-            <p class="section__description">
-                Utarakan Fikiran, Perasaan dan Pendapatmu disini!, {{ Auth::user()->name }}!
-            </p>
-            <div class="header__btns">
-                {{-- Link ini bisa diarahkan ke section 'Tujuan Pembelajaran' di bawah jika masih satu halaman,
-                     atau ke halaman lain jika dipisah. Untuk sekarang, kita buat link ke section ID. --}}
-                <a href="{{ route('dashboard') }}" class="btn btn-outline ml-2">Kembali</a>
-                {{-- <a href="#">
-                    <span><i class="ri-play-fill"></i></span>
-                    Check Video 
-                </a> --}}
+    <div class="content-wrapper">
+        <div class="refleksi-card"> {{-- Menggunakan kelas baru dari CSS --}}
+            <div class="refleksi-header">
+                Berikan Tanggapanmu Disini
             </div>
-        </div>
-    </header>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-
-            {{-- Pesan Sukses/Error (Pindahkan ke atas daftar post) --}}
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-100 text-green-700 rounded-md">{{ session('success') }}</div>
-            @endif
-            @if($errors->has('konten_teks') || $errors->has('gambar_input')) {{-- Menampilkan error validasi utama di sini --}}
-                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-md">
-                    @if($errors->has('konten_teks'))
-                        <p>{{ $errors->first('konten_teks') }}</p>
-                    @endif
-                    @if($errors->has('gambar_input'))
-                        <p>{{ $errors->first('gambar_input') }}</p>
-                    @endif
-                </div>
-            @endif
-
-            {{-- Daftar Post Refleksi (Sekarang di atas form input) --}}
-            <div class="space-y-6 mb-8"> {{-- Tambahkan mb-8 untuk spasi sebelum form input --}}
-                @forelse ($posts as $post)
-                    {{-- Kita akan modifikasi _post_card untuk alignment nanti --}}
-                    @include('refleksi._post_card', ['post' => $post, 'level' => 0])
-                @empty
-                    <div class="bg-white text-center p-6 shadow-sm sm:rounded-lg">
-                        <p class="text-gray-500">Belum ada refleksi yang diposting. Jadilah yang pertama!</p>
-                    </div>
-                @endforelse
-
-                @if(!$posts->isEmpty())
-                <div class="mt-6">
-                    {{ $posts->links() }}
-                </div>
+            {{-- Area untuk menampilkan komentar dari database --}}
+            <div class="refleksi-content">
+                @if(session('success'))
+                    <div class="p-3 text-sm text-green-700 bg-green-100 rounded-md">{{ session('success') }}</div>
                 @endif
+                @if($errors->any())
+                    <div class="p-3 text-sm text-red-700 bg-red-100 rounded-md">{{ $errors->first() }}</div>
+                @endif
+
+                @forelse($posts as $post)
+                    {{-- Memanggil partial view untuk setiap post --}}
+                    @include('refleksi._post_card', ['post' => $post])
+                @empty
+                    <p class="text-center text-gray-500">Belum ada refleksi. Jadilah yang pertama berkomentar!</p>
+                @endforelse
             </div>
 
-            {{-- Form untuk Post Refleksi Baru (Sekarang di bawah daftar post) --}}
-            <div class="bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold mb-3">Bagikan Refleksi Anda:</h3>
-                    <form action="{{ route('refleksi.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        {{-- Input untuk parent_id bisa ditambahkan di sini jika form ini juga dipakai untuk balasan dari konteks lain --}}
-                        {{-- Untuk post utama, parent_id tidak perlu --}}
-                        <div class="mb-4">
-                            <label for="konten_teks_new" class="sr-only">Tulis refleksi...</label>
-                            <textarea name="konten_teks" id="konten_teks_new" rows="3" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Tulis refleksi Anda di sini...">{{ old('konten_teks') }}</textarea>
-                            {{-- Error konten_teks sudah ditampilkan di atas --}}
-                        </div>
-                        <div class="mb-4">
-                            <label for="gambar_input_new" class="block text-sm font-medium text-gray-700">Unggah Gambar (Opsional)</label>
-                            <input type="file" name="gambar_input" id="gambar_input_new" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                            {{-- Error gambar_input sudah ditampilkan di atas --}}
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500">Kirim</button>
-                        </div>
-                    </form>
-                </div>
+            {{-- Area input untuk komentar baru --}}
+            <div class="refleksi-input-area">
+                <form action="{{ route('refleksi.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="text" name="konten_teks" class="refleksi-input" placeholder="Tulis komentar kamu di sini...">
+                    {{-- Untuk upload gambar bisa ditambahkan di sini jika diperlukan kembali --}}
+                    <button type="submit" class="refleksi-submit-button">
+                        <i class="ri-send-plane-fill"></i>
+                    </button>
+                </form>
             </div>
-
         </div>
     </div>
 @endsection

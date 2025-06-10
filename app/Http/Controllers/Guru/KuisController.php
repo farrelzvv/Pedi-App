@@ -16,18 +16,13 @@ class KuisController extends Controller
      */
     public function index(): View
     {
-        // Ambil user yang sedang login (Guru)
-        $guru = Auth::user();
+        // Ambil semua kuis milik guru, hitung pertanyaannya, urutkan, dan paginasi
+        $quizzes = Auth::user()->kuis()
+            ->withCount('pertanyaan') // <-- OPTIMASI DI SINI
+            ->latest()
+            ->paginate(10);
 
-        // Ambil semua kuis milik guru tersebut, urutkan dari yang terbaru
-        // Kita menggunakan relasi 'kuis()' yang sudah kita definisikan di model User
-        $daftarKuis = $guru->kuis()->latest()->paginate(10); // Menggunakan paginate untuk daftar yang panjang
-
-        // Kirim data kuis ke view
-        return view('guru.kuis.index', [
-            'quizzes' => $daftarKuis,
-        ]);
-        // Ini berarti view akan berada di resources/views/guru/kuis/index.blade.php
+        return view('guru.kuis.index', compact('quizzes'));
     }
 
     public function create(): View // Tambahkan return type View
@@ -64,17 +59,17 @@ class KuisController extends Controller
     public function show(Kuis $kui): View
     {
         if ($kui->user_id !== Auth::id()) {
-            abort(403, 'ANDA TIDAK BERHAK MENGAKSES KUIS INI.');
+            abort(403);
         }
 
-        // Eager load relasi 'pertanyaan' beserta 'pilihanJawaban' untuk setiap pertanyaan
+        // Pastikan kita mengambil pertanyaan beserta pilihan jawabannya
         $pertanyaanKuis = $kui->pertanyaan()
-            ->with('pilihanJawaban') // <-- TAMBAHKAN INI
-            ->orderBy('created_at')
+            ->with('pilihanJawaban')
+            ->orderBy('created_at', 'asc') // Urutkan dari yg terlama
             ->get();
 
         return view('guru.kuis.show', [
-            'kuis'      => $kui,
+            'kuis' => $kui,
             'questions' => $pertanyaanKuis,
         ]);
     }

@@ -1,34 +1,54 @@
-{{-- resources/views/layouts/partials/custom_header.blade.php --}}
-<nav>
-    <div class="nav__header">
-        <div class="nav__logo">
-            {{-- Logo bisa mengarah ke dashboard --}}
-            <a href="{{ route('dashboard') }}">PEDI<span>APP</span></a> {{-- Sesuaikan nama & target logo --}}
+{{-- File: resources/views/layouts/partials/guru/header.blade.php (VERSI SEDERHANA) --}}
+
+<aside class="sidebar">
+    <div class="sidebar-top">
+        <div class="sidebar-logo">
+            <div class="logo-icon-box">
+                <i class="ri-book-open-line"></i>
+            </div>
         </div>
-        <div class="nav__menu__btn" id="menu-btn">
-            <i class="ri-menu-line"></i>
-        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                {{-- Link ke Dashboard Guru --}}
+                <li class="nav-item {{ request()->routeIs('guru.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('guru.dashboard') }}" title="Dashboard Guru">
+                        <i class="ri-dashboard-line"></i>
+                        <span>Guru</span>
+                    </a>
+                </li>
+
+                {{-- Link ke Manajemen Kuis --}}
+                <li class="nav-item {{ request()->routeIs('guru.kuis.*') ? 'active' : '' }}">
+                    <a href="{{ route('guru.kuis.index') }}" title="Manajemen Kuis">
+                        <i class="ri-survey-line"></i>
+                        <span>Kuis</span>
+                    </a>
+                </li>
+
+                {{-- Link ke Refleksi (umum) --}}
+                <li class="nav-item {{ request()->routeIs('refleksi.index') ? 'active' : '' }}">
+                    <a href="{{ route('refleksi.index') }}" title="Papan Refleksi">
+                        <i class="ri-question-answer-line"></i>
+                        <span>Refleksi</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
-    <ul class="nav__links" id="nav-links">
-        {{-- Sesuaikan link navigasi ini untuk aplikasi Anda --}}
-        <li><a href="{{ route('dashboard') }}">Home</a></li> {{-- Mengarah ke dashboard --}}
-        <li><a href="{{ route('guru.siswa.index') }}">Total siswa</a></li> {{-- Mengarah ke dashboard --}}
-        <li><a href="{{ route('guru.materi.index') }}">Materi</a></li> {{-- Contoh link ke materi --}}
-        <li><a href="{{ route('guru.kuis.index') }}">Kuis</a></li> {{-- Contoh link ke kuis --}}
-        <li><a href="{{ route('refleksi.index') }}">Refleksi</a></li>
-        {{-- Jika ada profile page: <li><a href="{{ route('profile.edit') }}">Profile Saya</a></li> --}}
-    </ul>
-    <div class="nav__btns">
-        @auth
-            {{-- Tampilkan nama pengguna dan tombol logout jika sudah login --}}
-            <form method="POST" action="{{ route('logout') }}" class="inline">
+    <div class="sidebar-bottom">
+        {{-- Tombol untuk edit profil dan logout tetap dipertahankan --}}
+        <div class="nav-item">
+             <a href="{{ route('profile.edit') }}" title="Edit Profil Akun Saya">
+                <i class="ri-user-settings-line"></i>
+            </a>
+        </div>
+        <div class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-logout">Logout</button>{{-- Anda mungkin perlu style untuk btn-logout --}}
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" title="Logout">
+                    <i class="ri-logout-box-r-line"></i>
+                </a>
             </form>
-        @else
-            {{-- Tombol untuk login/register jika belum login --}}
-            <a href="{{ route('login') }}" class="btn">Login</a>
-            {{-- <a href="{{ route('register') }}" class="btn btn-secondary">Register</a> --}}
-        @endauth
+        </div>
     </div>
-</nav>
+</aside>

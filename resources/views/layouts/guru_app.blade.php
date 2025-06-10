@@ -1,44 +1,37 @@
-{{-- File: resources/views/layouts/custom_app.blade.php --}}
+{{-- File: resources/views/layouts/guru_app.blade.php --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }} - @yield('title', 'PEDI-APP')</title>
+    <title>{{ config('app.name', 'PEDI-APP') }} - @yield('title', 'Dashboard Guru')</title>
 
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    {{-- Semua link CSS & Font sama dengan layout utama Anda --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('custom_ui/css/dashboard.css') }}">
 
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-        
-        <link rel="stylesheet" href="{{ asset('landing_page_assets/css/styles.css') }}" />
+    @stack('styles')
+</head>
+<body>
 
-        {{-- Baris ini akan memastikan Tailwind CSS tetap termuat --}}
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <div class="app-container">
+        {{-- INI PERBEDAAN UTAMA: Memanggil header khusus Guru --}}
+        @include('layouts.partials.guru.header')
 
-        @stack('styles')
-    </head>
-    <body class="font-sans antialiased"> {{-- Sesuaikan kelas body jika perlu --}}
-        
-        <div id="app_page_wrapper"> {{-- Wrapper utama aplikasi Anda --}}
-            
-            @include('layouts.partials.guru.header') {{-- Header Kustom Anda --}}
+        <main class="main-content">
+            @yield('content')
+        </main>
+    </div>
 
-            <main>
-                @yield('content') {{-- Konten utama halaman akan masuk di sini --}}
-            </main>
-
-            @include('layouts.partials.guru.footer') {{-- Footer Kustom Anda --}}
-
-        </div>
-
-        <script src="https://unpkg.com/scrollreveal"></script>
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        <script src="{{ asset('landing_page_assets/js/main.js') }}"></script>
-        
-        @stack('scripts')
-    </body>
+    {{-- Script JS Anda --}}
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="{{ asset('custom_ui/js/main.js') }}"></script>
+    @stack('scripts')
+</body>
 </html>

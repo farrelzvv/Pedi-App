@@ -22,7 +22,45 @@
         {{-- Contoh tombol jika sudah login --}}
         <a href="#about" class="btn">Tentang PEDI-APP</a> 
     @else
-        <a href="{{ route('login') }}" class="btn">Login</a>
+        <a href="{{ route('lo{{-- File: resources/views/dashboard.blade.php (VERSI BARU DENGAN DESAIN KUSTOM) --}}
+@extends('layouts.app')
+
+@section('title', 'Dashboard')
+
+@section('content')
+
+<img src="{{ asset('custom_ui/images/anak-anak.png') }}" alt="Dekorasi Anak-anak" class="decorative-children">
+<div class="content-wrapper">
+    {{-- Di dalam content-wrapper --}}
+    <div class="card welcome-card mb-8"> {{-- Tambahkan kelas "card" dan margin bawah --}}
+    <header class="welcome-header">
+        <h1>Hallo {{ Auth::user()->name }},</h1>
+        <p>Selamat datang di website Pengenalan Etika Digital</p>
+    </header>
+</div>
+{{-- ... sisa kode ... --}}
+
+        <div class="content-grid">
+            <div class="card card-evaluasi">
+                {{-- Kita bisa buat ini sebagai link ke halaman kuis murid --}}
+                <a href="{{ route('murid.kuis.index') }}">
+                    <h2>Soal Evaluasi</h2>
+                </a>
+            </div>
+            <div class="card card-tujuan">
+                <h2>Tujuan Pembelajaran</h2>
+                {{-- Ini masih konten statis sesuai desain. Jika ingin dinamis, perlu di-loop dari DB --}}
+                <ol>
+                    <li>Peserta didik dapat mengidentifikasi nilai norma dan adat istiadat yang berlaku di sekitarnya.</li>
+                    <li>Peserta didik dapat mengartikan etika berinternet.</li>
+                    <li>Peserta didik dapat melakukan komentar dengan sopan di dunia digital.</li>
+                    <li>Peserta didik dapat menganalisis keterkaitan norma dengan etika digital dalam berinteraksi di dunia digital.</li>
+                    <li>Peserta didik dapat mengenali konten negatif, memahami dampaknya, dan mengetahui cara menghindari serta menanganinya.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+@endsectiongin') }}" class="btn">Login</a>
         <a href="{{ route('register') }}" class="btn btn-outline ml-2">Register</a>
     @endauth 
                 {{-- <a href="#">

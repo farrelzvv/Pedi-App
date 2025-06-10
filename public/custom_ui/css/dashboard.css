@@ -1,0 +1,1327 @@
+/* Salin semua ini ke dalam file public/custom_ui/css/dashboard.css Anda */
+
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Poppins:wght@400;500;600&display=swap');
+/* Tambahkan ini di paling atas dashboard.css */
+
+@font-face {
+    font-family: 'Glacial Indifference';
+    src: url('../fonts/GlacialIndifference-Regular.woff2') format('woff2'),
+         url('../fonts/GlacialIndifference-Regular.woff') format('woff');
+    font-weight: 400; /* 400 atau 'normal' untuk regular */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Glacial Indifference';
+    src: url('../fonts/GlacialIndifference-Bold.woff2') format('woff2'),
+         url('../fonts/GlacialIndifference-Bold.woff') format('woff');
+    font-weight: 700; /* 700 atau 'bold' untuk tebal */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ... (kode @import url(...); untuk Google Fonts yang lama bisa dihapus jika ada) ... */
+
+/* Reset dan Variabel CSS */
+:root {
+    --bg-main: #FBFBFE;
+    --bg-sidebar: #FFF9EC;
+    --bg-card: #e4e085;
+    --text-primary: #333333;
+    --text-secondary: #555555;
+     --font-heading: 'Glacial Indifference', sans-serif;
+    --font-body: 'Glacial Indifference', sans-serif;
+    --shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Struktur Layout Utama */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Styling Sidebar (Kiri) */
+.sidebar {
+    background-color: var(--bg-sidebar);
+    width: 100px;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transition: width 0.3s;
+    box-shadow: 4px 0px 15px rgba(0,0,0,0.04);
+    position: fixed; /* Membuat sidebar tetap di tempat */
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 100;
+}
+
+/* Style BARU untuk logo gambar */
+.sidebar-logo .logo-image {
+    width: 55px;  /* Lebar logo, sesuaikan jika perlu */
+    height: auto; /* Tinggi otomatis menjaga rasio aspek */
+    margin-bottom: 3rem;
+}
+
+.sidebar-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-nav .nav-item a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: color 0.3s, transform 0.2s;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.sidebar-nav .nav-item a:hover {
+    background-color: rgba(255, 221, 169, 0.5);
+    transform: scale(1.1);
+}
+
+.sidebar-nav .nav-item i {
+    font-size: 1.5rem;
+}
+
+.sidebar-nav .nav-item.active a {
+    color: var(--text-primary);
+    font-weight: 600;
+    background-color: #e4e085;
+}
+
+.sidebar-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.auth-container {
+    display: flex;
+    align-items: center;      /* Menengahkan secara vertikal */
+    justify-content: center;  /* Menengahkan secara horizontal */
+    width: 100%;
+    min-height: 70vh; /* Memberi tinggi minimal agar penengahan vertikal terlihat */
+    padding: 2rem 1rem; /* Memberi sedikit jarak dari atas/bawah di layar kecil */
+}
+
+
+
+/* ================================= */
+/* STYLING KHUSUS DASHBOARD GURU     */
+/* ================================= */
+
+.guru-welcome-card {
+    background-color: var(--bg-card);
+    padding: 1.5rem 2rem;
+    border-radius: 30px; /* DIUPDATE: Radius lebih besar */
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.guru-welcome-card h1 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+.guru-welcome-card p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.guru-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.guru-stat-card {
+    background-color: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 30px; /* DIUPDATE: Radius lebih besar */
+    box-shadow: var(--shadow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: var(--text-primary);
+}
+
+.guru-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.guru-stat-card .stat-icon {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+}
+
+.guru-stat-card .stat-number {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.guru-stat-card .stat-label {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Styling Konten Utama (Kanan) */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem 3rem;
+    position: relative;
+    background-color: #FDFDFD;
+    margin-left: 100px; /* Memberi ruang seukuran sidebar */
+    /* --- DIUPDATE: Menggunakan gambar background baru --- */
+    background-image: url('../images/background-utama.jpg');
+}
+
+.decorative-children {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: auto;
+    z-index: 1;
+}
+
+.content-wrapper {
+    max-width: 1280px; /* Menetapkan lebar maksimal container. Anda bisa sesuaikan nilainya (misal: 1100px, 1280px) */
+    margin-left: auto; /* Trik untuk membuat container berada di tengah secara horizontal */
+    margin-right: auto; /* Trik untuk membuat container berada di tengah secara horizontal */
+    position: relative;
+    z-index: 2;
+}
+
+
+
+/* Styling Grid dan Kartu Konten */
+.content-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0.1rem;
+    align-items: center;
+}
+
+.card {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.card-icon {
+    width: 180px;  /* Lebar gambar, sesuaikan jika perlu */
+    height: 180px; /* Tinggi gambar, sesuaikan jika perlu */
+    object-fit: contain;
+    margin-bottom: 1rem; /* Jarak dari gambar ke teks di bawahnya */
+}
+
+
+.card h2 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-evaluasi {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: max-content;
+    height: auto;
+    padding: 3rem;
+
+    /* Hapus atau ubah ini ↓ */
+    /* margin: 0 auto; */       /* Hapus */
+    margin-left: 0; 
+}
+
+.card-evaluasi:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-tujuan ol {
+    padding-left: 1.5rem;
+}
+
+.card-tujuan ol li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+/* Tambahkan ini di public/custom_ui/css/dashboard.css */
+
+/* Styling untuk Halaman Petunjuk */
+.petunjuk-card {
+    padding: 2.5rem; /* Padding lebih besar */
+}
+
+.petunjuk-list {
+    list-style: none; /* Hapus styling list default */
+    counter-reset: petunjuk-counter; /* Mulai counter kustom */
+    padding-left: 0;
+}
+
+.petunjuk-list li {
+    counter-increment: petunjuk-counter; /* Naikkan counter untuk setiap <li> */
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem; /* Jarak antara nomor dan teks */
+    margin-bottom: 1.5rem; /* Jarak antar poin petunjuk */
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+/* Styling untuk lingkaran nomor */
+.petunjuk-list li::before {
+    content: counter(petunjuk-counter); /* Tampilkan nomor dari counter */
+    background-color: #e54c5e; /* Contoh warna merah/oranye */
+    color: white;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Styling untuk sub-list di dalam poin utama */
+.petunjuk-list .sub-list {
+    list-style-type: decimal; /* Gunakan nomor biasa 1, 2, 3... */
+    padding-left: 1.5rem; /* Indentasi untuk sub-list */
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.petunjuk-list .sub-list li {
+    display: list-item;
+    margin-bottom: 0.5rem;
+    gap: 0;
+    align-items: initial;
+}
+
+.petunjuk-list .sub-list li::before {
+    display: none; /* Sembunyikan lingkaran nomor kustom untuk sub-list */
+}
+
+/* Styling untuk ikon di dalam teks */
+.petunjuk-list .inline-icon {
+    vertical-align: -0.2em; /* Posisikan ikon agar sejajar dengan teks */
+    font-size: 1.2em; /* Sedikit perbesar ikon */
+    color: var(--text-primary);
+}
+
+/* Tambahkan ini di public/custom_ui/css/dashboard.css */
+
+/* Styling untuk Halaman Detail Materi */
+.materi-detail-card {
+    padding: 2rem 2.5rem; /* Padding di dalam kartu */
+    min-height: 70vh; /* Tinggi minimal agar kartu terlihat substansial */
+}
+
+.materi-detail-card .materi-title {
+    font-family: var(--font-heading); /* Menggunakan font judul */
+    font-size: 2.25rem; /* Ukuran teks lebih besar untuk judul utama */
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.materi-detail-card .materi-meta {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1); /* Garis pemisah tipis */
+    padding-bottom: 1rem;
+}
+
+.materi-detail-card .materi-content-body {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+.materi-detail-card .materi-content-body a {
+    text-decoration: underline;
+    color: #4f46e5; /* Contoh warna link biru */
+    font-weight: 600;
+}
+
+.materi-detail-card .materi-content-body .download-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.materi-detail-card .materi-content-body .download-button:hover {
+    background-color: #111;
+}
+
+.materi-detail-card .materi-content-body .download-button i {
+    margin-right: 0.5rem;
+}
+
+/* GANTI BLOK CSS REFLEKSI YANG LAMA DENGAN YANG INI */
+
+/* Styling untuk Halaman Refleksi */
+.refleksi-card {
+    background-color: var(--bg-card); /* Warna #e4e085 dari var --bg-card */
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    height: 80vh; /* Tinggi tetap agar input menempel di bawah */
+    max-height: 80vh;
+}
+
+.refleksi-header {
+    background-color: #f0ead6;
+    padding: 1.25rem 2rem;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    flex-shrink: 0; /* Header tidak menyusut */
+}
+
+.refleksi-content {
+    padding: 1.5rem;
+    flex-grow: 1; /* Konten mengisi sisa ruang */
+    overflow-y: auto; /* Scroll jika konten melebihi area */
+}
+
+.refleksi-post {
+    display: flex;
+    margin-bottom: 1.25rem;
+    max-width: 85%; /* Bubble chat tidak 100% lebar */
+}
+
+.refleksi-post .avatar {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.refleksi-post .bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 15px;
+    position: relative;
+}
+
+.refleksi-post .bubble .author {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+.refleksi-post .bubble .timestamp {
+    font-size: 0.7rem;
+    color: #777;
+}
+.refleksi-post .bubble .content-text {
+    font-size: 0.95rem;
+    white-space: pre-wrap; /* Agar baris baru di teks tetap tampil */
+}
+.refleksi-post .bubble .content-image {
+    margin-top: 0.5rem;
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.refleksi-submit-button {
+    background-color: var(--text-primary);
+    color: white;
+    border: none;
+
+    /* DIUPDATE: Membuat tombol lebih besar dan melingkar */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Membuat bentuk menjadi lingkaran sempurna */
+
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+
+    /* DIUPDATE: Menggunakan flexbox untuk memusatkan ikon di tengah lingkaran */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.refleksi-submit-button:hover {
+    background-color: #111;
+    transform: scale(1.05); /* Sedikit efek perbesar saat hover */
+}
+
+.refleksi-submit-button i {
+    font-size: 1.5rem; /* DIUPDATE: Sedikit perbesar ukuran ikon */
+    line-height: 1; /* Memastikan ikon pas di tengah */
+}
+
+/* Alignment untuk Murid (Kiri) */
+.murid-post {
+    justify-content: flex-start; /* Default */
+}
+.murid-post .avatar {
+    margin-right: 0.75rem;
+    background-color: #dbeafe; /* biru muda */
+    color: #1e40af;
+}
+.murid-post .bubble {
+    background-color: #f3f4f6; /* abu-abu muda */
+    border-top-left-radius: 5px;
+}
+
+/* Alignment untuk Guru (Kanan) */
+.guru-post {
+    justify-content: flex-end; /* Pindahkan ke kanan */
+    margin-left: auto; /* Dorong bubble ke kanan */
+}
+.guru-post .avatar {
+    margin-left: 0.75rem;
+    order: 2; /* Pindahkan avatar ke kanan bubble */
+    background-color: #dcfce7; /* hijau muda */
+    color: #166534;
+}
+.guru-post .bubble {
+    background-color: #e2fdd1; /* hijau chat */
+    border-top-right-radius: 5px;
+    order: 1; /* Pindahkan bubble ke kiri avatar */
+}
+
+/* Area Input */
+.refleksi-input-area {
+    background-color: #f0ead6;
+    padding: 1rem 1.5rem;
+    border-radius: 0 0 15px 15px;
+    flex-shrink: 0;
+    border-top: 1px solid #ddd;
+}
+
+.refleksi-input-area form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.refleksi-input {
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 1rem;
+}
+
+/* ==================================================================== */
+/* ===== STYLING UNTUK FITUR KUIS MURID (VERSI UPDATE DENGAN TEMA) ===== */
+/* ==================================================================== */
+
+/* Card untuk daftar kuis */
+.kuis-card {
+    background-color: var(--bg-card); /* DIUPDATE: Menggunakan warna tema utama */
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.kuis-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+}
+.kuis-card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+.kuis-card-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--text-primary); /* Menggunakan warna teks utama */
+    margin-bottom: 0.5rem;
+}
+.kuis-card-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+.kuis-card-meta {
+    font-size: 0.8rem;
+    color: #5a5828; /* Warna meta yang lebih gelap agar kontras dengan background */
+}
+.kuis-card-footer {
+    padding: 1rem 1.5rem;
+    background-color: rgba(255, 255, 255, 0.2); /* Footer transparan lembut */
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+.kuis-card-button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    text-align: center;
+    background-color: var(--text-primary); /* Tombol warna gelap */
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+.kuis-card-button:hover {
+    background-color: #111;
+}
+
+/* Styling untuk Halaman Pengerjaan Kuis */
+.kuis-stepper-container {
+    background-color: var(--bg-card); /* DIUPDATE: Menggunakan warna tema utama */
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.kuis-progress-bar {
+    width: 100%;
+    background-color: rgba(0,0,0,0.1); /* Latar progress bar lebih gelap sedikit */
+}
+.kuis-progress {
+    width: 0%; /* Diupdate oleh JS */
+    height: 10px;
+    background-color: #555; /* Warna progres gelap agar kontras */
+    transition: width 0.4s ease-in-out;
+}
+.kuis-progress-text {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background-color: rgba(255,255,255,0.2); /* Latar text progres transparan lembut */
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.question-slide {
+    padding: 2rem;
+    display: none;
+}
+.question-slide.active {
+    display: block;
+}
+.question-text {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+.answer-option {
+    display: flex; /* Menggunakan flex untuk alignment */
+    align-items: center;
+    background-color: #fff; /* Pilihan jawaban tetap putih agar mudah dibaca */
+    padding: 1rem;
+    border: 2px solid transparent; /* Border transparan awalnya */
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+.answer-option:hover {
+    border-color: #333;
+}
+.answer-option input[type="radio"]:checked + span {
+    font-weight: 600; /* Tebalkan teks jawaban yang dipilih */
+}
+.kuis-navigation {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+.kuis-nav-button, .kuis-submit-button {
+    padding: 0.75rem 2rem;
+    border: 1px solid var(--text-primary);
+    background-color: white;
+    color: var(--text-primary);
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.kuis-nav-button:hover:not(:disabled), .kuis-submit-button:hover {
+    background-color: var(--text-primary);
+    color: white;
+}
+.kuis-nav-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.kuis-submit-button {
+    background-color: #16a34a;
+    color: white;
+    border-color: #16a34a;
+}
+.kuis-submit-button:hover {
+    background-color: #15803d;
+}
+
+/* Styling untuk Halaman Hasil Kuis */
+.hasil-card {
+    background-color: var(--bg-card); /* DIUPDATE: Menggunakan warna tema utama */
+    padding: 2.5rem;
+    text-align: center;
+}
+.score-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: white; /* Lingkaran skor dibuat putih agar kontras */
+    margin: 1.5rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 10px solid #555; /* Border gelap */
+}
+.score-circle.passed { /* Ganti kelas 'failed' menjadi 'passed' agar lebih positif */
+    border-color: #16a34a; /* Hijau jika lulus */
+}
+.score-circle.failed {
+    border-color: #dc2626; /* Merah jika tidak */
+}
+.score-value {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.score-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Tambahkan ini di public/custom_ui/css/dashboard.css */
+
+/* GANTI BLOK CSS GAMES YANG LAMA DENGAN YANG INI */
+
+/* Styling untuk Halaman Games */
+.games-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    min-height: 60vh;
+}
+
+/* GANTI .game-card YANG LAMA DENGAN YANG INI */
+.game-card {
+    background-color: var(--bg-card);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem; /* Padding akan memberi jarak antara konten dan tepi kartu */
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* STYLE BARU UNTUK IKON GAME */
+/* Style BARU untuk gambar */
+.game-card .game-icon {
+    width: 190px;  /* Lebar gambar, sesuaikan jika perlu */
+    height: 190px; /* Tinggi gambar, sesuaikan jika perlu */
+    object-fit: contain; /* Memastikan gambar tidak gepeng/terdistorsi */
+    margin-bottom: 1.5rem; /* Jarak antara gambar dan teks */
+}
+
+/* STYLE BARU UNTUK JUDUL GAME */
+.game-card .game-title {
+    font-size: 1.5rem; /* Ukuran teks judul */
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    line-height: 1.2;
+}
+
+/* Tambahkan ini di public/custom_ui/css/dashboard.css */
+
+/* Styling untuk Halaman Profile Pengembang */
+.profile-card {
+    background-color: var(--bg-card); /* Menggunakan warna kartu #e4e085 */
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.profile-card-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--text-primary);
+}
+
+.profile-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem; /* Jarak antara foto dan info teks */
+}
+
+.profile-picture {
+    flex-shrink: 0;
+    width: 180px;
+    height: 250px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+    /* * DIUPDATE: Menggunakan border-radius dengan 4 nilai
+     * Format: top-left | top-right | bottom-right | bottom-left 
+     * Kita buat sudut atas sangat melengkung dan sudut bawah sedikit melengkung.
+    */
+    border-radius: 90px 90px 0px 0px;
+}
+
+.profile-details {
+    flex-grow: 1;
+}
+
+.profile-details p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+.profile-details p strong {
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 100px;
+    display: inline-block;
+}
+
+.profile-contact {
+    margin-top: 2rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.profile-contact i {
+    vertical-align: -0.2em;
+    margin-right: 0.5rem;
+    font-size: 1.2em;
+}
+
+/* Responsif untuk Halaman Profil */
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column; /* Tumpuk foto dan info secara vertikal */
+        text-align: center;
+        gap: 2rem;
+    }
+    .profile-details p {
+        text-align: left;
+    }
+}
+
+/* Pastikan blok CSS ini ada di dashboard.css Anda */
+
+/* Struktur Layout Utama */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Styling Sidebar (Kiri) */
+.sidebar {
+    background-color: var(--bg-sidebar); /* Warna #FFF9EC */
+    width: 100px;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transition: width 0.3s;
+    box-shadow: 4px 0px 15px rgba(0,0,0,0.04);
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 100;
+}
+
+.sidebar-logo .logo-icon-box {
+    width: 50px;
+    height: 50px;
+    background-color: #FFDDA9;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #A3782D;
+    margin-bottom: 3rem;
+}
+
+.sidebar-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-nav .nav-item a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: color 0.3s, transform 0.2s;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.sidebar-nav .nav-item a:hover {
+    background-color: rgba(255, 221, 169, 0.5);
+    transform: scale(1.1);
+}
+
+.sidebar-nav .nav-item i {
+    font-size: 1.5rem;
+}
+
+.sidebar-nav .nav-item.active a {
+    color: var(--text-primary);
+    font-weight: 600;
+    background-color: #FFDDA9;
+}
+
+.sidebar-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.main-content {
+    margin-left: 100px; /* Memberi ruang seukuran sidebar */
+    /* ... sisa properti .main-content ... */
+}
+
+/* Tambahkan ini di public/custom_ui/css/dashboard.css */
+
+/* ================================================================ */
+/* STYLING UNTUK TABEL MANAJEMEN GURU (VERSI UPDATE DENGAN TEMA) */
+/* ================================================================ */
+
+.page-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1); /* DIUPDATE: Garis pemisah lebih lembut */
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--text-primary);
+}
+
+.action-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--text-primary); /* Tombol utama tetap gelap agar menonjol */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.action-button:hover {
+    background-color: #111;
+}
+.action-button i {
+    margin-right: 0.5rem;
+}
+
+.data-table-container {
+    background-color: var(--bg-card); /* DIUPDATE: Menggunakan warna tema utama #e4e085 */
+    border-radius: 20px; /* DIUPDATE: Radius lebih besar agar cocok dengan card lain */
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+    padding: 1rem; /* DIUPDATE: Tambahkan sedikit padding di sekeliling tabel */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(0,0,0,0.08); /* DIUPDATE: Garis pemisah lebih lembut */
+}
+
+.data-table thead th {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    background-color: transparent; /* DIUPDATE: Hilangkan background abu-abu */
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* DIUPDATE: Efek hover transparan di atas warna tema */
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    white-space: nowrap;
+}
+
+.table-actions a, .table-actions button {
+    font-weight: 600; /* DIUPDATE: Teks link lebih tebal */
+    font-size: 0.875rem;
+    transition: color 0.2s, transform 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+.table-actions a:hover, .table-actions button:hover {
+    transform: scale(1.1); /* Efek hover perbesar */
+}
+
+/* Warna untuk link aksi (bisa dipertahankan untuk kejelasan) */
+.table-actions .link-results { color: #8b5cf6; }
+.table-actions .link-view { color: #3b82f6; }
+.table-actions .link-edit { color: #22c55e; }
+.table-actions .link-delete { color: #ef4444; }
+
+/* ================================================================= */
+/* STYLING UNTUK DETAIL KUIS GURU (VERSI UPDATE DENGAN TEMA WARNA) */
+/* ================================================================= */
+
+.question-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Jarak antar kartu pertanyaan */
+}
+
+.question-card {
+    background-color: var(--bg-card); /* DIUPDATE: Menggunakan warna tema utama #e4e085 */
+    border-radius: 20px; /* DIUPDATE: Radius lebih besar */
+    box-shadow: var(--shadow);
+    padding: 1.5rem; /* DIUPDATE: Padding langsung di kartu utama */
+}
+
+.question-card-header {
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.1); /* DIUPDATE: Garis pemisah lebih lembut */
+    margin-bottom: 1rem; /* Jarak dari header ke body */
+}
+
+.question-card-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    padding-right: 1rem;
+}
+
+.question-card-body {
+    /* Padding tidak lagi diperlukan di sini karena sudah ada di .question-card */
+}
+
+.answer-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .answer-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.answer-list li {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background-color: #ffffff; /* Pilihan jawaban tetap putih agar kontras */
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary); /* DIUPDATE: Warna teks default untuk pilihan */
+}
+
+.answer-list li.is-correct {
+    border-color: #166534; /* Border hijau lebih gelap */
+    background-color: #f0fdf4;
+    font-weight: 700; /* DIUPDATE: Lebih tebal */
+    color: #15803d; /* DIUPDATE: Warna teks hijau */
+}
+
+.answer-list li i {
+    font-size: 1.2rem;
+}
+
+.answer-list li .correct-icon {
+    color: #22c55e;
+}
+
+.answer-list li .wrong-icon {
+    color: #9ca3af; /* DIUPDATE: Warna ikon lebih jelas */
+}
+
+
+/* ===================================== */
+/* STYLING UMUM UNTUK FORM             */
+/* ===================================== */
+
+/* ========================================================= */
+/* STYLING UMUM UNTUK FORM (VERSI UPDATE DENGAN TEMA WARNA) */
+/* ========================================================= */
+
+/* Kartu Form */
+.auth-card {
+    max-width: 28rem;
+    width: 100%;
+    background-color: var(--bg-card); /* DIUPDATE: Menggunakan warna tema utama #e4e085 */
+    padding: 2.5rem;
+    border-radius: 20px; /* DIUPDATE: Radius lebih besar agar seragam */
+    box-shadow: var(--shadow);
+}
+
+.auth-card-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+/* Grup Form (label + input) */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Label Input */
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600; /* DIUPDATE: Sedikit lebih tebal */
+    font-size: 0.875rem;
+    color: var(--text-primary); /* DIUPDATE: Lebih gelap agar kontras */
+}
+
+/* Input Teks & Email & Password & Textarea */
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0,0,0,0.1); /* DIUPDATE: Border lebih lembut */
+    border-radius: 0.375rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: white; /* Input field tetap putih agar mudah dibaca */
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--text-primary); /* DIUPDATE: Warna focus lebih gelap */
+    box-shadow: 0 0 0 3px rgba(80, 80, 80, 0.2); /* DIUPDATE: Shadow ring lebih gelap */
+}
+
+textarea.form-input {
+    font-family: inherit;
+}
+
+/* Tombol Utama */
+.form-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.375rem;
+    background-color: var(--text-primary); /* DIUPDATE: Tombol utama warna gelap */
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-button:hover {
+    background-color: #111;
+}
+
+/* Link-link kecil */
+.auth-link {
+    font-size: 0.875rem;
+    color: var(--text-primary); /* DIUPDATE: Warna link gelap */
+    font-weight: 500;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.auth-link:hover {
+    color: #000;
+}
+
+/* ================== */
+/* RESPONSIVE DESAIN */
+/* ================== */
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* TAMBAHKAN ATURAN BARU INI */
+    .card-evaluasi {
+        width: auto;      /* Hapus 'max-content' agar lebarnya bisa menyesuaikan kolom grid */
+        margin-left: 0;   /* Pastikan margin kembali normal */
+        margin-right: 0;
+        padding: 2rem;
+        margin-bottom: 20px;    /* Sedikit kurangi padding di layar kecil */
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column; /* Mengubah layout jadi vertikal */
+        padding-bottom: 80px; /* Beri ruang untuk bottom nav */
+    }
+    .sidebar {
+        order: 2; /* Pindahkan sidebar ke bawah */
+        flex-direction: row;
+        width: 100%;
+        height: 80px;
+        padding: 0 1rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        background-color: white;
+        border-top: 1px solid #eee;
+    }
+    .sidebar-top {
+        width: 100%;
+    }
+    .sidebar-logo, .sidebar-bottom {
+        display: none;
+    }
+    .sidebar-nav ul {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+    }
+    .sidebar-nav .nav-item a span {
+        font-size: 0.7rem;
+    }
+
+    .main-content {
+        order: 1; /* Pindahkan konten ke atas */
+        margin-left: 0; /* Hapus margin kiri */
+        padding: 7rem 1.5rem;
+    }
+    .welcome-header h1 {
+        font-size: 2rem;
+    }
+    .decorative-children {
+        width: 120px;
+    }
+}

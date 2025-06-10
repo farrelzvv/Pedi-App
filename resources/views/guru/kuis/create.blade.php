@@ -1,70 +1,55 @@
-{{-- File: resources/views/guru/kuis/create.blade.php --}}
+{{-- File: resources/views/guru/kuis/create.blade.php (VERSI BARU DENGAN STYLE KUSTOM) --}}
+@extends('layouts.guru_app') {{-- Menggunakan layout khusus Guru --}}
 
-@extends('layouts.guru_app') {{-- Menggunakan layout kustom baru Anda --}}
-
-@section('title', 'Dashboard Utama') {{-- Judul halaman dinamis --}}
+@section('title', 'Buat Kuis Baru')
 
 @section('content')
-        {{-- 1. Ini Info Website (Hero Section dari HTML Anda) --}}
-    <header class="section__container header__container" id="home">
-        <div class="header__image">
-            {{-- Ganti path gambar sesuai dengan lokasi di public/landing_page_assets/ --}}
-            <img src="{{ asset('landing_page_assets/images/header.png') }}" alt="header" />
-        </div>
-        <div class="header__content">
-            <h1><span>Buat</span>Kuis</h1>
-            <p class="section__description">
-                Buat kuis sesuai kebutuhan dan tujuan
-            </p>
-            <div class="header__btns">
-                {{-- Link ini bisa diarahkan ke section 'Tujuan Pembelajaran' di bawah jika masih satu halaman,
-                     atau ke halaman lain jika dipisah. Untuk sekarang, kita buat link ke section ID. --}}
-                <a href="{{ route('guru.kuis.index') }}" class="btn btn-outline ml-2">Kembali</a>
-                {{-- <a href="#">
-                    <span><i class="ri-play-fill"></i></span>
-                    Check Video 
-                </a> --}}
-            </div>
-        </div>
+<div class="content-wrapper py-12">
+
+    {{-- Header Halaman --}}
+    <header class="page-header">
+        <h1 class="page-title">Buat Kuis Baru</h1>
+        <a href="{{ route('guru.kuis.index') }}" class="action-button">
+            <i class="ri-arrow-left-line"></i>
+            <span>Kembali</span>
+        </a>
     </header>
 
-    <div class="py-12 bg-gray-100"> <!-- tambahkan bg-gray-100 untuk background abu-abu -->
-    <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-        <!-- Judul di tengah -->
-        <h2 class="text-center text-2xl font-semibold mb-6">Buat disini</h2>
+    {{-- Menggunakan style .auth-card yang sudah kita buat untuk form --}}
+    <div class="auth-card max-w-3xl mx-auto">
+        <form method="POST" action="{{ route('guru.kuis.store') }}">
+            @csrf
 
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 bg-white border-b border-gray-200">
-                <form method="POST" action="{{ route('guru.kuis.store') }}">
-                    @csrf
-
-                    <div>
-                        <label for="judul" class="block font-medium text-sm text-gray-700">{{ __('Judul Kuis') }}</label>
-                        <input id="judul" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                               type="text" name="judul" value="{{ old('judul') }}" required autofocus />
-                        @error('judul')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div class="mt-4">
-                        <label for="deskripsi" class="block font-medium text-sm text-gray-700">{{ __('Deskripsi (Opsional)') }}</label>
-                        <textarea id="deskripsi" name="deskripsi" rows="4"
-                                  class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ old('deskripsi') }}</textarea>
-                        @error('deskripsi')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div class="flex items-center justify-end mt-6">
-                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            {{ __('Simpan dan Lanjut Tambah Soal') }}
-                        </button>
-                    </div>
-                </form>
+            <div class="form-group">
+                <label for="judul" class="form-label">Judul Kuis <span class="text-red-500">*</span></label>
+                <input id="judul" class="form-input" type="text" name="judul" value="{{ old('judul') }}" required autofocus />
+                @error('judul')
+                    <p class="input-error-message">{{ $message }}</p>
+                @enderror
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="deskripsi" class="form-label">Deskripsi (Opsional)</label>
+                <textarea id="deskripsi" name="deskripsi" rows="4" class="form-input">{{ old('deskripsi') }}</textarea>
+                @error('deskripsi')
+                    <p class="input-error-message">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Anda bisa tambahkan field lain di sini jika perlu, misalnya status publikasi --}}
+            {{-- <div class="form-group">
+                <label for="is_published" class="flex items-center">
+                    <input type="checkbox" name="is_published" id="is_published" value="1" class="rounded border-gray-300 text-pink-600 shadow-sm focus:ring-pink-500">
+                    <span class="ml-2 text-sm text-gray-600">Publikasikan Kuis Ini</span>
+                </label>
+            </div> --}}
+
+            <div class="flex items-center justify-end mt-6">
+                <button type="submit" class="form-button">
+                    {{ __('Simpan Kuis & Lanjut') }}
+                </button>
+            </div>
+        </form>
     </div>
 </div>
-
 @endsection

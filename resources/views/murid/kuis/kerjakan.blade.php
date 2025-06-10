@@ -1,80 +1,101 @@
-{{-- resources/views/dashboard.blade.php --}}
-@extends('layouts.custom_app') {{-- Menggunakan layout kustom baru Anda --}}
-
-@section('title', 'Dashboard Utama') {{-- Judul halaman dinamis --}}
+@extends('layouts.app')
+@section('title', 'Mengerjakan: ' . $kuis->judul)
 
 @section('content')
-    {{-- 1. Ini Info Website (Hero Section dari HTML Anda) --}}
-    <header class="section__container header__container" id="home">
-        <div class="header__image">
-            {{-- Ganti path gambar sesuai dengan lokasi di public/landing_page_assets/ --}}
-            <img src="{{ asset('landing_page_assets/images/header.png') }}" alt="header" />
-        </div>
-        <div class="header__content">
-            <h1><span>KUIS</span> DIMULAI!</h1>
-            <p class="section__description">
-                Kerjakan dengan jujur ya!
-            </p>
-        </div>
-    </header>
+<div class="content-wrapper py-12">
+    @if($pertanyaanKuis->isNotEmpty())
+    <form method="POST" action="{{ route('murid.kuis.submit', $kuis->id) }}">
+        @csrf
+        <div class="kuis-stepper-container">
+            <div>
+                <div class="kuis-progress-text">
+                    Soal <span id="current-question-number">1</span> dari {{ $pertanyaanKuis->count() }}
+                </div>
+                <div class="kuis-progress-bar">
+                    <div class="kuis-progress" id="progress-bar"></div>
+                </div>
+            </div>
 
-    <div class="py-12 bg-gray-50">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 md:p-8 bg-white border-b border-gray-200">
-                {{-- Judul Kuis --}}
-                <h2 class="text-center text-2xl font-bold text-pink-600 mb-8">Kuis: {{ $kuis->judul }}</h2>
-
-                @if($pertanyaanKuis->isNotEmpty())
-                    <form method="POST" action="{{route('murid.kuis.submit', $kuis->id)}}">
-                        @csrf
-
-                        <div class="space-y-8">
-                            @foreach ($pertanyaanKuis as $index => $pertanyaan)
-                                <div class="border-b pb-6 mb-6">
-                                    <p class="font-semibold text-lg text-gray-800 mb-1">
-                                        Pertanyaan {{ $index + 1 }}:
-                                    </p>
-                                    <p class="text-gray-700 mb-3">{{ $pertanyaan->teks_pertanyaan }}</p>
-
-                                    @if($pertanyaan->pilihanJawaban && $pertanyaan->pilihanJawaban->isNotEmpty())
-                                        <div class="space-y-2">
-                                            @foreach ($pertanyaan->pilihanJawaban as $pilihan)
-                                                <label for="jawaban_{{ $pertanyaan->id }}_{{ $pilihan->id }}" 
-                                                       class="flex items-center p-3 border rounded-md hover:bg-gray-50 cursor-pointer transition-colors">
-                                                    <input type="radio" 
-                                                           name="jawaban[{{ $pertanyaan->id }}]" 
-                                                           id="jawaban_{{ $pertanyaan->id }}_{{ $pilihan->id }}" 
-                                                           value="{{ $pilihan->id }}" 
-                                                           class="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300"
-                                                           required>
-                                                    <span class="ml-3 text-sm text-gray-700">{{ $pilihan->teks_pilihan }}</span>
-                                                </label>
-                                            @endforeach
-                                        </div>
-                                        @error("jawaban.{$pertanyaan->id}")
-                                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
-                                        @enderror
-                                    @else
-                                        <p class="text-sm text-gray-500 italic">Tidak ada pilihan jawaban untuk pertanyaan ini.</p>
-                                    @endif
-                                </div>
+            {{-- Kontainer untuk semua pertanyaan --}}
+            <div class="relative">
+                @foreach ($pertanyaanKuis as $index => $pertanyaan)
+                    <div id="question-{{ $index }}" class="question-slide {{ $index == 0 ? 'active' : '' }}">
+                        <p class="question-text">{{ $pertanyaan->teks_pertanyaan }}</p>
+                        <div class="answer-options-container">
+                            @foreach ($pertanyaan->pilihanJawaban as $pilihan)
+                                <label class="answer-option">
+                                    <input type="radio" name="jawaban[{{ $pertanyaan->id }}]" value="{{ $pilihan->id }}" required>
+                                    <span>{{ $pilihan->teks_pilihan }}</span>
+                                </label>
                             @endforeach
                         </div>
+                    </div>
+                @endforeach
+            </div>
 
-                        <div class="mt-8 flex items-center justify-end">
-                            <button type="submit" 
-                                    class="inline-flex items-center px-6 py-3 bg-pink-600 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest hover:bg-pink-500 active:bg-pink-700 focus:outline-none focus:border-pink-700 focus:ring ring-pink-300 disabled:opacity-25 transition ease-in-out duration-150">
-                                {{ __('Kumpulkan Jawaban') }}
-                            </button>
-                        </div>
-                    </form>
-                @else
-                    <p class="text-gray-600">Kuis ini belum memiliki pertanyaan. Silakan hubungi Guru Anda.</p>
-                @endif
+            {{-- Navigasi Kuis --}}
+            <div class="kuis-navigation">
+                <button type="button" id="prev-btn" class="kuis-nav-button" disabled>Sebelumnya</button>
+                <button type="button" id="next-btn" class="kuis-nav-button">Selanjutnya</button>
+                <button type="submit" id="submit-btn" class="kuis-submit-button" style="display: none;">Kumpulkan Jawaban</button>
             </div>
         </div>
-    </div>
+    </form>
+    @else
+        <div class="card text-center p-8">
+            <p>Kuis ini belum memiliki pertanyaan. Silakan hubungi Guru Anda.</p>
+        </div>
+    @endif
 </div>
-
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const slides = document.querySelectorAll('.question-slide');
+        const totalQuestions = slides.length;
+        if (totalQuestions === 0) return;
+
+        let currentSlide = 0;
+
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressText = document.getElementById('current-question-number');
+        const progressBar = document.getElementById('progress-bar');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+
+            // Update UI
+            progressText.textContent = index + 1;
+            progressBar.style.width = ((index + 1) / totalQuestions) * 100 + '%';
+            prevBtn.disabled = index === 0;
+            nextBtn.style.display = (index === totalQuestions - 1) ? 'none' : 'inline-block';
+            submitBtn.style.display = (index === totalQuestions - 1) ? 'inline-block' : 'none';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalQuestions - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Show initial slide
+        showSlide(0);
+    });
+</script>
+@endpush

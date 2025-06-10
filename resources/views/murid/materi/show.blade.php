@@ -1,65 +1,70 @@
-{{-- File: resources/views/murid/materi/show.blade.php --}}
-@extends('layouts.custom_app') {{-- Menggunakan layout kustom baru --}}
+{{-- File: resources/views/murid/materi/show.blade.php (VERSI BARU SESUAI DESAIN) --}}
+@extends('layouts.app')
 
-@section('title', 'Materi Pembelajaran')
+@section('title', $materi->judul)
 
 @section('content')
+    {{-- Wrapper halaman --}}
+    <div class="content-wrapper">
+        {{-- Menggunakan kelas .card yang background-color-nya sudah kita atur
+             dan menambahkan kelas .materi-detail-card untuk styling spesifik --}}
+        <div class="card materi-detail-card">
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 md:p-8 bg-white border-b border-gray-200">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $materi->judul }}</h3>
-                    <div class="mb-4 text-sm text-gray-500">
-                        <span class="font-semibold">Tipe:</span> {{ ucfirst(str_replace('_', ' ', $materi->tipe_materi ?? 'Teks')) }} |
-                        <span class="font-semibold">Oleh:</span> {{ $materi->user->name ?? 'Guru' }} |
-                        <span class="font-semibold">Dipublikasikan:</span> {{ $materi->created_at->format('d M Y, H:i') }}
-                    </div>
+            {{-- Judul Materi --}}
+            <h1 class="materi-title">{{ $materi->judul }}</h1>
 
-                    @if($materi->deskripsi_singkat)
-                        <p class="text-gray-700 italic mb-6 bg-gray-50 p-3 rounded-md">{{ $materi->deskripsi_singkat }}</p>
-                    @endif
-
-                    @if($materi->tipe_materi == 'teks' && $materi->konten)
-                        <div class="prose max-w-none mt-4">
-                            {!! $materi->konten !!}
-                        </div>
-                    @elseif($materi->tipe_materi == 'file' && $materi->file_path)
-                        <div class="mt-4">
-                            <p class="font-semibold mb-2">File Materi:</p>
-                            <a href="{{ Storage::url($materi->file_path) }}" target="_blank"
-                               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                Download/Lihat File ({{ basename($materi->file_path) }})
-                            </a>
-                        </div>
-                    @elseif($materi->tipe_materi == 'video_link' && $materi->file_path)
-                        <div class="mt-4">
-                            <p class="font-semibold mb-2">Link Video/Sumber:</p>
-                            <a href="{{ $materi->file_path }}" target="_blank" rel="noopener noreferrer"
-                               class="text-blue-600 hover:underline break-all">{{ $materi->file_path }}</a>
-                            @if(Str::contains($materi->file_path, ['youtube.com/watch?v=', 'youtu.be/']))
-                                @php
-                                    $videoId = null;
-                                    if (Str::contains($materi->file_path, 'youtube.com/watch?v=')) {
-                                        parse_str(parse_url($materi->file_path, PHP_URL_QUERY), $query);
-                                        $videoId = $query['v'] ?? null;
-                                    } elseif (Str::contains($materi->file_path, 'youtu.be/')) {
-                                        $videoId = Str::after($materi->file_path, 'youtu.be/');
-                                    }
-                                @endphp
-                                @if($videoId)
-                                <div class="aspect-w-16 aspect-h-9 mt-4">
-                                    <iframe src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
-                                </div>
-                                @endif
-                            @endif
-                        </div>
-                    @else
-                        <p class="mt-4 text-gray-500">Konten untuk materi ini tidak tersedia.</p>
-                    @endif
-                </div>
+            {{-- Info Meta (Oleh, Tanggal, Tipe) --}}
+            <div class="materi-meta">
+                <span>Tipe: {{ ucfirst(str_replace('_', ' ', $materi->tipe_materi ?? 'Teks')) }}</span> |
+                <span>Oleh: {{ $materi->user->name ?? 'Guru' }}</span> |
+                <span>Dipublikasikan: {{ $materi->created_at->format('d F Y') }}</span>
             </div>
+
+            {{-- Deskripsi Singkat (jika ada) --}}
+            @if($materi->deskripsi_singkat)
+                <p class="italic text-gray-600 mb-6">{{ $materi->deskripsi_singkat }}</p>
+            @endif
+
+
+            {{-- Konten Utama Materi (dengan logika kondisional) --}}
+            <div class="materi-content-body">
+                @if($materi->tipe_materi == 'teks' && $materi->konten)
+                    {!! $materi->konten !!}
+
+                @elseif($materi->tipe_materi == 'file' && $materi->file_path)
+                    <p class="mb-4">Materi ini tersedia dalam format file. Silakan unduh di bawah ini:</p>
+                    <a href="{{ Storage::url($materi->file_path) }}" target="_blank" class="download-button">
+                        <i class="ri-download-2-line"></i>
+                        Download File ({{ basename($materi->file_path) }})
+                    </a>
+
+                @elseif($materi->tipe_materi == 'video_link' && $materi->file_path)
+                    <p class="mb-4">Materi ini berupa link video. Silakan tonton di bawah ini:</p>
+                    <a href="{{ $materi->file_path }}" target="_blank" rel="noopener noreferrer">{{ $materi->file_path }}</a>
+
+                    {{-- Logika untuk embed video YouTube --}}
+                    @if(Str::contains($materi->file_path, ['youtube.com/watch?v=', 'youtu.be/']))
+                        @php
+                            $videoId = null;
+                            if (Str::contains($materi->file_path, 'youtube.com/watch?v=')) {
+                                parse_str(parse_url($materi->file_path, PHP_URL_QUERY), $query);
+                                $videoId = $query['v'] ?? null;
+                            } elseif (Str::contains($materi->file_path, 'youtu.be/')) {
+                                $videoId = Str::after($materi->file_path, 'youtu.be/');
+                            }
+                        @endphp
+                        @if($videoId)
+                        <div class="aspect-w-16 aspect-h-9 mt-4" style="position: relative; padding-bottom: 56.25%; height: 0;">
+                            <iframe src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                        @endif
+                    @endif
+
+                @else
+                    <p>Konten untuk materi ini tidak tersedia.</p>
+                @endif
+            </div>
+
         </div>
     </div>
 @endsection
