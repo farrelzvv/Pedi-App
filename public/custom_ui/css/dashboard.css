@@ -531,7 +531,7 @@ ul {
     flex-shrink: 0;
 }
 .pelanggaran-image img {
-    max-height: 100px;
+    max-height: 200px;
     width: auto;
 }
 .adat-content-wrapper {
@@ -578,8 +578,9 @@ ul {
     flex-shrink: 0;
 }
 .etiket-image img {
-    max-height: 120px;
+    max-height: 300px;
     width: auto;
+    border-radius: 20px;
     display: block;
 }
 .menghindari-section {
@@ -669,6 +670,55 @@ ul {
 
 .nilai-text {
     flex: 1; /* Kolom teks mengambil sisa ruang */
+}
+
+/* ======================================= */
+/* ATURAN RESPONSIVE (UNTUK TABLET & HP)   */
+/* ======================================= */
+@media (max-width: 768px) {
+    .materi-visual-card {
+        padding: 1.5rem; /* Kurangi padding di layar kecil */
+    }
+
+    /* Mengubah semua layout flex menjadi vertikal */
+    .pelanggaran-section,
+    .adat-content-wrapper,
+    .etiket-section,
+    .menghindari-section,
+    .nilai-section {
+        flex-direction: column; /* Susun ke bawah */
+        align-items: center;    /* Pusatkan item */
+        text-align: center;
+    }
+
+    /* Memastikan teks rata kiri di mode kolom */
+    .pelanggaran-text,
+    .adat-list,
+    .etiket-text,
+    .menghindari-text,
+    .nilai-text {
+        text-align: justify;
+    }
+    
+    /* Atur ulang gambar agar tidak terlalu besar */
+    .pelanggaran-image img,
+    .etiket-image img,
+    .menghindari-image img,
+    .nilai-image img {
+        max-height: 150px; /* Batasi tinggi gambar */
+        margin-top: 1rem;
+    }
+
+    .adat-image {
+        flex-basis: auto; /* Hapus lebar tetap pada gambar adat */
+        width: 80%;       /* Buat lebar gambar 80% dari kontainer */
+        margin-bottom: 1rem;
+    }
+
+    .info-box-yellow .info-box-header {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 
