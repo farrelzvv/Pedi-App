@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;   // Import HasMany
 class Kuis extends Model
 {
     use HasFactory;
+
     protected $table = 'kuis';
 
     /**
